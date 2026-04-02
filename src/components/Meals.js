@@ -1,7 +1,8 @@
 import MealItem from "./MealItem";
 import PropsTypes from "prop-types";
 import { useState, useEffect } from "react";
-function Meals() {
+import "../index.css";
+const Meals = (props) => {
   const [mealsData, setMealsData] = useState(null);
 
   useEffect(() => {
@@ -11,15 +12,15 @@ function Meals() {
   }, []);
 
   console.log(mealsData);
-  const Meals = () => {
+  if (mealsData) {
     return (
       <ul id="meals">
-        {
-          // list of meals
-          <h2>Create list of meals, using fetch data from backend</h2>
-        }
+        {mealsData.map((mealsData) => {
+          return <MealItem meal={mealsData} key={mealsData.id}></MealItem>;
+        })}
       </ul>
     );
-  };
-}
+  }
+};
+
 export default Meals;
