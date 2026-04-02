@@ -1,5 +1,5 @@
 const fs = require("fs/promises");
-const bodyParser = require("body-parser")
+const bodyParser = require("body-parser");
 const path = require("path");
 const express = require("express");
 
@@ -7,8 +7,9 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "..", "build")));
-app.use(express.static('public'));
+app.use(express.static("public"));
 
+const dataFile = path.join(__dirname, "data", "meals.json");
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST");
@@ -17,7 +18,9 @@ app.use((req, res, next) => {
 });
 
 app.get("/meals", async (req, res) => {
-  const meals = "[]" // data should be read from file
+  // const meals = "[]"; // data should be read from file
+  const meals = await fs.readFile(dataFile, "utf-8");
+
   res.json(JSON.parse(meals));
 });
 
